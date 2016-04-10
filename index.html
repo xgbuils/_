@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/kite.css" />
+    <script src="js/vendor/mousetrap.js"></script>
+    <script src="js/vendor/underscore.js"></script>
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/vendor/backbone.js"></script>
+    <script src="js/main.js"></script>
+    <style>
+        /* reset */
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* styling */
+        .app {
+        	position: absolute;
+            width: 400%;
+            transition: left 0.6s ease 0s;
+            left: 0;
+            height: 100vh;
+        }
+
+        .simple_selector {
+            width: 50%;
+            border: solid 2px black;
+
+        }
+
+        .layer: {
+            height: 100%;
+        }
+
+        .selector {
+            height: 150px;
+            border: solid 2px black;
+            background-color: #0b7;
+        }
+
+        .selector.active {
+            background-color: #2fb;
+        }
+
+        .your_name .active{
+            border: solid 2px black;
+        }
+
+    </style>
+    <title>title</title>
+</head>
+<body>
+	<div class="app kite kite--fill is-equalize">
+		<div class="kite__item layer" style="position:relative;">
+            <div class="kite kite--center kite--position">
+                <div class="kite__item simple_selector">
+                    <div class="label">simple selector</div>
+                    <div class="kite kite--fill is-equalize">
+                        <div class="kite__item selector">Abra</div>
+                        <div class="kite__item selector">Kada</div>
+                        <div class="kite__item selector">Bra</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div class="kite__item layer" style="position:relative;">
+            <div class="kite kite--center kite--position">
+                <div class="kite__item your_name">
+                    <div class="label">your name</div>
+                    <div class="kite kite--fill">
+                        <div class="kite__item text_input"><input type="text"/></div>
+                        <div class="kite__item keyboard">keyb.</div>
+                    </div>
+                    <div class="kite__item ok">OK</div>
+                </div>
+            </div>
+        </div>
+		<div class="kite__item layer">C</div>
+		<div class="kite__item layer">D</div>
+	</div>
+</body>
+</html>
