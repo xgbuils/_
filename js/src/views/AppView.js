@@ -65,7 +65,10 @@
 
             Backbone.on('layer:blur', function (name, mode) {
             	console.log('layer:blur')
-                this.currentView = viewsConfig[name].modeHandler(mode)
+                var nextView = viewsConfig[name].modeHandler(mode)
+                if (typeof nextView === 'string') {
+                    this.currentView = nextView
+                }
                 this.focus(viewsConfig[this.currentView].index)
                 Backbone.trigger(this.currentView + ':focus')
             }, this);
