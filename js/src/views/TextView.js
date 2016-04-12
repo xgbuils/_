@@ -11,6 +11,7 @@
     
             Backbone.on(this.name + ':next', this.move('right'), this)
             Backbone.on(this.name + ':previous', this.move('left'), this)
+            Backbone.on(this.name + ':select', this.select, this)
         },
         selectors: {
             input: '.text_input',
@@ -33,10 +34,24 @@
             return this.$selectors.input
         },
         focus: function ($newItem) {
-            var x = $newItem.find('input,textarea,select').first()
+            var $input = $newItem.find('input,textarea,select').first()
+            if ($input.length === 0) {
+                $input = $newItem
+            }
             _.delay(function () {
-                x.focus()
+                $input.focus()
             }, 450);
+        },
+        select: function () {
+            var $selectors = this.$selectors
+            if ($selectors.activeItem === $selectors.input &&
+                $selectors.activeItem.val().length === 0 || 
+                $selectors.activeItem === $selectors.keyboard) {
+                console.log('show keyboard')
+                Backbone.trigger('keyboard:focus')
+            } else {
+                console.log('set value "' + $selectors.input.val() + '" in model')
+            }
         }
     })
 })(window);

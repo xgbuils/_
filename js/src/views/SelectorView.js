@@ -4,8 +4,6 @@
             this.name = options.name
             this.addSelectors();
 
-            
-    
             Backbone.on(this.name + ':next', this.move('right'), this)
             Backbone.on(this.name + ':previous', this.move('left'), this)
         },

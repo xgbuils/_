@@ -44,27 +44,29 @@
 
             Mousetrap.bind('left', _.partial(this.left, _, this))
             Mousetrap.bind('right', _.partial(this.right, _, this))
+            Mousetrap.bind('enter', _.bind(this.select, this))
+
+            $(document).on('keyup', 'input,textarea', function (e) {
+                if (e.which === keysCodes.ENTER) {
+                    Mousetrap.trigger('enter')
+                }
+            })
     
-            $('input,textarea').on('cursor:first', function (e) {
+            $(document).on('cursor:first', 'input,textarea', function (e) {
                 if (!e.cursorChanged) {
-                    //self.left(undefined, model)
                     $(e.target).blur()
-                    Mousetrap.trigger('left')
+                    self.left(e, self)
                 }
             })
 
-            $('input,textarea').on('cursor:last', function (e) {
-            	console.log('last')
+            $(document).on('cursor:last', 'input,textarea', function (e) {
                 if (!e.cursorChanged) {
-                	console.log('inside')
-                    //self.left(undefined, model)
                     $(e.target).blur()
-                    Mousetrap.trigger('right')
+                    self.right(e, self)
                 }
             })
 
             Backbone.on('layer:blur', function (name, mode) {
-            	console.log('layer:blur')
                 var nextView = viewsConfig[name].modeHandler(mode)
                 if (typeof nextView === 'string') {
                     this.currentView = nextView
@@ -86,10 +88,13 @@
             Backbone.trigger(view.currentView + ':previous')
         },
         right: function (event, view) {
-        	console.log('eii')
             preventDefault(event)
-            console.log('trigger', view.currentView + ':next')
             Backbone.trigger(view.currentView + ':next')
+        },
+        select: function (event) {
+            preventDefault(event)
+            console.log(this.currentView + ':select', event)
+            Backbone.trigger(this.currentView + ':select')
         }
     })
 

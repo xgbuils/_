@@ -1,5 +1,7 @@
 (function (jQuery) {
     var last_position;
+    
+
     jQuery(document).on("blur", 'input', function(e) {
     	last_position = undefined
     })
@@ -21,10 +23,10 @@
     jQuery(document).on('cursor', 'input,textarea', function(e) {
         var value = jQuery(e.target).val()
         var position = e.cursorPosition
-        var sufix = position === 0 && 'first' || position === value.length && 'last' || ''
-        console.log(e.which)
-        console.log([9, 13, 37, 38, 39, 40].indexOf(e.which))
-        if (!e.cursorChanged && sufix && [9, 13, 37, 38, 39, 40].indexOf(e.which) !== -1) {
+        var sufix = position === 0 && [keysCodes.LEFT, keysCodes.UP].indexOf(e.which) !== -1 && 'first' || 
+            position === value.length && [keysCodes.DOWN, keysCodes.RIGHT, keysCodes.TAB].indexOf(e.which) !== -1 && 'last' || ''
+
+        if (!e.cursorChanged && sufix) {
             var cursorEvent = jQuery.Event('cursor:' + sufix, _.pick(e, 'which', 'cursorPosition', 'cursorChanged'))
             jQuery(e.target).trigger(cursorEvent)
         }
