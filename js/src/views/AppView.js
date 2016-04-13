@@ -1,5 +1,4 @@
 (function (root) {
-	console.log('AppView')
     root.AppView = Backbone.View.extend({
         initialize: function () {
             var viewsConfig = {
@@ -36,6 +35,11 @@
                         }[mode];
                     },
                     index: 3
+                },
+                keyboard: {
+                    modeHandler: function (mode) {
+
+                    },
                 }
             };
             this.currentView = 'select_word'
@@ -43,7 +47,9 @@
             var model = this.model
 
             Mousetrap.bind('left', _.partial(this.left, _, this))
+            Mousetrap.bind('up', _.partial(this.up, _, this))
             Mousetrap.bind('right', _.partial(this.right, _, this))
+            Mousetrap.bind('down', _.partial(this.down, _, this))
             Mousetrap.bind('enter', _.bind(this.select, this))
 
             $(document).on('keyup', 'input,textarea', function (e) {
@@ -66,13 +72,18 @@
                 }
             })
 
-            Backbone.on('layer:blur', function (name, mode) {
+            Backbone.on('layer:next', function (name, mode) {
                 var nextView = viewsConfig[name].modeHandler(mode)
                 if (typeof nextView === 'string') {
                     this.currentView = nextView
                 }
                 this.focus(viewsConfig[this.currentView].index)
                 Backbone.trigger(this.currentView + ':focus')
+            }, this);
+
+            Backbone.on('layer:focus', function (layerName) {
+                this.currentView = layerName
+                Backbone.trigger(layerName + ':focus')
             }, this);
 
             model.on('change:status', this.render, this)
@@ -85,15 +96,22 @@
         el: '.app',
         left: function (event, view) {
             preventDefault(event)
-            Backbone.trigger(view.currentView + ':previous')
+            Backbone.trigger(view.currentView + ':left')
+        },
+        up: function (event, view) {
+            preventDefault(event)
+            Backbone.trigger(view.currentView + ':up')
         },
         right: function (event, view) {
             preventDefault(event)
-            Backbone.trigger(view.currentView + ':next')
+            Backbone.trigger(view.currentView + ':right')
+        },
+        down: function (event, view) {
+            preventDefault(event)
+            Backbone.trigger(view.currentView + ':down')
         },
         select: function (event) {
             preventDefault(event)
-            console.log(this.currentView + ':select', event)
             Backbone.trigger(this.currentView + ':select')
         }
     })

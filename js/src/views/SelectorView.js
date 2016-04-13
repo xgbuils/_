@@ -4,8 +4,8 @@
             this.name = options.name
             this.addSelectors();
 
-            Backbone.on(this.name + ':next', this.move('right'), this)
-            Backbone.on(this.name + ':previous', this.move('left'), this)
+            Backbone.on(this.name + ':right', this.move('right'), this)
+            Backbone.on(this.name + ':left', this.move('left'), this)
         },
         nextItem: function (mode, $oldItem) {
             var map = {

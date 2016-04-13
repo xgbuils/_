@@ -18,10 +18,8 @@
                 }
 
                 if (!$newItem || !$newItem[0]) {
-                    console.log('next layer', view.name + ':blur')
-                    Backbone.trigger('layer:blur', view.name, mode);
+                    Backbone.trigger('layer:next', view.name, mode);
                 } else {
-                	console.log('NEXT')
                     view.$selectors.activeItem = $newItem
                     $oldItem && $oldItem.removeClass('active')
                     $newItem.addClass('active')

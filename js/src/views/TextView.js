@@ -2,6 +2,7 @@
     root.TextView = BaseView.extend({
         initialize: function (options) {
             this.name = options.name;
+            this.associatedKeyboard = options.associatedKeyboard || 'keyboard'
             this.index = -1
             this.addSelectors()
 
@@ -9,8 +10,8 @@
                 this.move('right')()
             }, this)
     
-            Backbone.on(this.name + ':next', this.move('right'), this)
-            Backbone.on(this.name + ':previous', this.move('left'), this)
+            Backbone.on(this.name + ':right', this.move('right'), this)
+            Backbone.on(this.name + ':left', this.move('left'), this)
             Backbone.on(this.name + ':select', this.select, this)
         },
         selectors: {
@@ -19,7 +20,6 @@
             ok: '.ok'
         },
         nextItem: function (mode) {
-        	console.log('NEXT ITEM')
             var flow = ['input', 'keyboard', 'ok']
             var mapToIncr = {
                 left: -1,
@@ -29,7 +29,6 @@
             return this.$selectors[flow[this.index]]
         },
         firstItem: function () {
-        	console.log('FIRST ITEM')
             this.index = 0
             return this.$selectors.input
         },
@@ -47,8 +46,8 @@
             if ($selectors.activeItem === $selectors.input &&
                 $selectors.activeItem.val().length === 0 || 
                 $selectors.activeItem === $selectors.keyboard) {
-                console.log('show keyboard')
-                Backbone.trigger('keyboard:focus')
+                this.$selectors.input.blur()
+                Backbone.trigger('layer:focus', this.associatedKeyboard)
             } else {
                 console.log('set value "' + $selectors.input.val() + '" in model')
             }

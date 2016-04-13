@@ -33,6 +33,12 @@ function init () {
     })
     var textView = new TextView({
         el: '.your_name',
-        name: 'your_name'
+        name: 'your_name',
+        associatedKeyboard: 'keyboard'
+    })
+    var keyboardView = new KeyboardView({
+    	el: '.keyboard-container',
+    	name: 'keyboard',
+    	keys: [['a', 'b', 'c'], ['d', 'e', 'f']]
     })
 }
